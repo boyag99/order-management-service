@@ -3,11 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
+import { RedlockModule } from '@libs/redlock';
 
 @Module({
   imports: [
     ConfigModule,
-    DatabaseModule
+    DatabaseModule,
+    RedlockModule
   ],
   controllers: [AppController],
   providers: [AppService],

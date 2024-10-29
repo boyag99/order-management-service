@@ -24,6 +24,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
+    },
+    "redlock": {
+      "type": "library",
+      "root": "libs/redlock",
+      "entryFile": "index",
+      "sourceRoot": "libs/redlock/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redlock/tsconfig.lib.json"
+      }
     }
   }
 }

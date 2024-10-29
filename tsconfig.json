@@ -25,6 +25,12 @@
       ],
       "@libs/database/*": [
         "libs/database/src/*"
+      ],
+      "@libs/redlock": [
+        "libs/redlock/src"
+      ],
+      "@libs/redlock/*": [
+        "libs/redlock/src/*"
       ]
     }
   },
