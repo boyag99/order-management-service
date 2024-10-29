@@ -12,7 +12,15 @@
     "baseUrl": "./",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
+      ]
+    }
   },
   "watchOptions": {
     "watchFile": "fixedPollingInterval"
