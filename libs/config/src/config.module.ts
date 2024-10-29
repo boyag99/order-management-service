@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
 import config from './config';
+import { DatabaseConfigService } from './services/database-config.service';
 
 @Global()
 @Module({
@@ -11,7 +12,7 @@ import config from './config';
       load: [config],
     }),
   ],
-  providers: [ConfigService],
-  exports: [ConfigService],
+  providers: [ConfigService, DatabaseConfigService],
+  exports: [ConfigService, DatabaseConfigService],
 })
 export class ConfigModule {}

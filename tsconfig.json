@@ -19,6 +19,12 @@
       ],
       "@libs/config/*": [
         "libs/config/src/*"
+      ],
+      "@libs/database": [
+        "libs/database/src"
+      ],
+      "@libs/database/*": [
+        "libs/database/src/*"
       ]
     }
   },
