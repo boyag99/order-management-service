@@ -1,6 +1,7 @@
 import { TDatabaseOptions } from '@libs/config/types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { OrderEntity } from 'src/order/entities/order.entity';
 
 @Injectable()
 export class DatabaseConfigService {
@@ -14,6 +15,8 @@ export class DatabaseConfigService {
       username: this.configService.get<string>('database.username'),
       password: this.configService.get<string>('database.password'),
       database: this.configService.get<string>('database.database'),
+      synchronize: true,
+      autoLoadEntities: true,
     };
   }
 }
