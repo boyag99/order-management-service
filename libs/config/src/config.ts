@@ -1,6 +1,9 @@
 import { IConfig } from './interfaces';
 
 export default (): IConfig => ({
+  app: {
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
+  },
   database: {
     type: 'postgres',
     host: process.env.POSTGRES_HOST || 'localhost',

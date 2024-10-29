@@ -1,7 +1,8 @@
 import { RedisOptions } from "ioredis";
-import { TDatabaseOptions } from "../types";
+import { TApp, TDatabaseOptions } from "../types";
 
 export interface IConfig {
+    app: TApp,
     database: TDatabaseOptions;
     redis: RedisOptions;
 }
