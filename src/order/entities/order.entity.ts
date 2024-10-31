@@ -6,6 +6,9 @@ import { OrderItemEntity } from 'src/order-item/entities/order-item.entity';
 @Entity('orders')
 export class OrderEntity extends AbstractEntity {
 
+  @Column('bigint')
+  customerId: number;
+
   @Column({
     type: 'enum',
     enum: OrderStatus,

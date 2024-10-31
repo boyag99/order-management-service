@@ -1,5 +1,5 @@
-const { nanoid } = require('fix-esm').require('nanoid');
-import { BeforeInsert, CreateDateColumn, DeleteDateColumn, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+const { customAlphabet } = require('fix-esm').require('nanoid');
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class AbstractEntity {
     @PrimaryGeneratedColumn({
@@ -7,7 +7,10 @@ export abstract class AbstractEntity {
     })
     id!: number;
 
-    @PrimaryColumn('varchar', { length: 21 })
+    @Index({
+        unique: true
+    })
+    @Column('varchar', { length: 21, unique: true })
     uid!: string;
 
     @CreateDateColumn()
@@ -22,7 +25,7 @@ export abstract class AbstractEntity {
     @BeforeInsert()
     generateUID() {
         if (!this.uid) {
-            this.uid = nanoid();
+            this.uid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 21)();
         }
     }
 } 
