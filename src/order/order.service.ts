@@ -115,6 +115,10 @@ export class OrderService {
         }
     }
 
+    // Error injecting global Redlock service
+    // @Redlock<OrderService["updateOrder"]>(
+    //     (target: OrderService, id: number) => `OrderService/updateOrder/${id}`,
+    // )
     async updateOrder(id: number, updateOrderDto: UpdateOrderDto): Promise<OrderDto> {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();

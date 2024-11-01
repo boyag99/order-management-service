@@ -1,7 +1,7 @@
 import { RedlockModuleOptions } from '@anchan828/nest-redlock';
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { RedisConfigService } from './redis-config.service';
+import { RedisConfigService } from '../../../config/src/services/redis-config.service';
 
 @Injectable()
 export class RedlockConfigService {

@@ -12,5 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (databaseConfigService: DatabaseConfigService) => databaseConfigService.options,
     })
   ],
+  providers: [DatabaseConfigService],
+  exports: [DatabaseConfigService],
 })
 export class DatabaseModule {}

@@ -3,7 +3,7 @@ import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config'
 import config from './config';
 import { DatabaseConfigService } from '../../database/src/services/database-config.service';
 import { RedisConfigService } from './services/redis-config.service';
-import { RedlockConfigService } from './services/redlock-config.service';
+import { RedlockConfigService } from '../../redlock/src/services/redlock-config.service';
 
 @Global()
 @Module({
@@ -14,7 +14,7 @@ import { RedlockConfigService } from './services/redlock-config.service';
       load: [config],
     }),
   ],
-  providers: [ConfigService, DatabaseConfigService, RedisConfigService, RedlockConfigService],
-  exports: [ConfigService, DatabaseConfigService, RedisConfigService, RedlockConfigService],
+  providers: [ConfigService, RedisConfigService],
+  exports: [ConfigService, RedisConfigService],
 })
 export class ConfigModule {}
