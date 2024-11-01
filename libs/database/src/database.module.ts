@@ -1,5 +1,5 @@
 import { ConfigModule } from '@libs/config';
-import { DatabaseConfigService } from '@libs/config/services/database-config.service';
+import { DatabaseConfigService } from '@libs/database/services/database-config.service';
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

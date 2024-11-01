@@ -1,7 +1,7 @@
 // src/orders/entities/order-item.entity.ts
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { OrderEntity } from 'src/order/entities/order.entity';
-import { ProductEntity } from 'src/product/entities/product.entity';
+import { OrderEntity } from '../../order/entities/order.entity';
+import { ProductEntity } from '../../product/entities/product.entity';
 import { AbstractEntity } from '@libs/database/entities/abstract.entity';
 
 @Entity('order_items')

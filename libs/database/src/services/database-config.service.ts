@@ -1,11 +1,11 @@
-import { TDatabaseOptions } from '@libs/config/types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { OrderEntity } from 'src/order/entities/order.entity';
+import { TDatabaseOptions } from '@libs/common';
+import InitSeeder from '../seeds/init.seeder';
 
 @Injectable()
 export class DatabaseConfigService {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
 
   get options(): TDatabaseOptions {
     return {

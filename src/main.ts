@@ -23,7 +23,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.useGlobalPipes(new ValidationPipe({
-    disableErrorMessages: true,
     whitelist: true,
     transform: true,
   }));

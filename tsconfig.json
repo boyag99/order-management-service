@@ -32,6 +32,12 @@
       ],
       "@libs/redlock/*": [
         "libs/redlock/src/*"
+      ],
+      "@libs/common": [
+        "libs/common/src"
+      ],
+      "@libs/common/*": [
+        "libs/common/src/*"
       ]
     }
   },

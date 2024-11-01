@@ -1,4 +1,3 @@
-import { TDatabaseOptions } from '@libs/config/types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { RedisOptions } from 'ioredis';

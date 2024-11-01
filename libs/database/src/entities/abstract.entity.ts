@@ -1,4 +1,4 @@
-const { customAlphabet } = require('fix-esm').require('nanoid');
+import { customAlphabet } from 'nanoid';
 import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class AbstractEntity {

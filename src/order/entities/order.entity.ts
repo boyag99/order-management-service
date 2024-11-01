@@ -1,7 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { AbstractEntity } from '@libs/database/entities/abstract.entity';
 import { OrderStatus } from '../enums/order-status.enum';
-import { OrderItemEntity } from 'src/order-item/entities/order-item.entity';
+import { OrderItemEntity } from '../../order-item/entities/order-item.entity';
 
 @Entity('orders')
 export class OrderEntity extends AbstractEntity {

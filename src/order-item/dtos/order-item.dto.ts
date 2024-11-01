@@ -1,19 +1,24 @@
 import { AutoMap } from "@automapper/classes";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class OrderItemDto {
-    @AutoMap()
-    id: number;
-  
-    @AutoMap()
-    quantity: number;
-  
-    @AutoMap()
-    price: number;
-  
-    @AutoMap()
-    productId: number;
+  @ApiProperty()
+  @AutoMap()
+  id: number;
 
-    @AutoMap()
-    orderId: number;
-  }
-  
+  @ApiProperty()
+  @AutoMap()
+  quantity: number;
+
+  @ApiProperty()
+  @AutoMap()
+  price: number;
+
+  @ApiProperty()
+  @AutoMap()
+  productId: number;
+
+  @ApiProperty()
+  @AutoMap()
+  orderId: number;
+}

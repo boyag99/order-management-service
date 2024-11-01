@@ -16,7 +16,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d libs/database/src/config/typeorm.config.ts"
   },
   "engines": {
     "npm": ">=8.0.0",
@@ -37,10 +38,9 @@
     "@types/nanoid": "^3.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "fix-esm": "^1.0.1",
     "ioredis": "^5.4.1",
     "lodash": "^4.17.21",
-    "nanoid": "^5.0.8",
+    "nanoid": "^3.3.7",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
@@ -95,7 +95,8 @@
     "moduleNameMapper": {
       "^@libs/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@libs/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@libs/redlock(|/.*)$": "<rootDir>/libs/redlock/src/$1"
+      "^@libs/redlock(|/.*)$": "<rootDir>/libs/redlock/src/$1",
+      "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   },
   "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228"

@@ -1,5 +1,5 @@
 import { AbstractEntity } from "@libs/database/entities/abstract.entity";
-import { OrderItemEntity } from "src/order-item/entities/order-item.entity";
+import { OrderItemEntity } from "../../order-item/entities/order-item.entity";
 import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity('products')

@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
 import config from './config';
-import { DatabaseConfigService } from './services/database-config.service';
+import { DatabaseConfigService } from '../../database/src/services/database-config.service';
 import { RedisConfigService } from './services/redis-config.service';
 import { RedlockConfigService } from './services/redlock-config.service';
 

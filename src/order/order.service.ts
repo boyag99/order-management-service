@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource, In } from 'typeorm';
 import { OrderEntity } from './entities/order.entity';
-import { OrderItemEntity } from 'src/order-item/entities/order-item.entity';
-import { ProductEntity } from 'src/product/entities/product.entity';
+import { OrderItemEntity } from '../order-item/entities/order-item.entity';
+import { ProductEntity } from '../product/entities/product.entity';
 import { UpdateOrderDto } from './dtos/update-order.dto';
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
@@ -11,12 +11,15 @@ import { OrderDto } from './dtos/order.dto';
 import { CreateOrderDto } from './dtos/create-order.dto';
 import { OrderStatus } from './enums/order-status.enum';
 import _ from 'lodash';
+import { GetOrdersDto } from './dtos/get-orders.dto';
+import { Redlock } from '@anchan828/nest-redlock';
 
 @Injectable()
 export class OrderService {
     constructor(
         @InjectRepository(OrderEntity)
         private readonly orderRepository: Repository<OrderEntity>,
+        // Improve: A repository should not be injected directly but should be implemented through a derived service class.
         @InjectRepository(OrderItemEntity)
         private readonly orderItemRepository: Repository<OrderItemEntity>,
         @InjectRepository(ProductEntity)
@@ -25,21 +28,28 @@ export class OrderService {
         @InjectMapper() private readonly mapper: Mapper,
     ) { }
 
-    async getOrder(id: number): Promise<OrderDto> {
+    async getOrder(id: number): Promise<{ data: OrderDto }> {
         const order = await this.orderRepository.findOne({
             where: { id },
             relations: ['orderItems']
         });
 
-        return this.mapper.mapAsync(order, OrderEntity, OrderDto)
+        return { data: await this.mapper.mapAsync(order, OrderEntity, OrderDto) }
     }
 
-    async getOrders(): Promise<OrderDto[]> {
-        const orders = await this.orderRepository.find({
-            relations: ['orderItems']
+    async getOrders(getOrdersDto: GetOrdersDto): Promise<{ data: OrderDto[], total: number }> {
+        const [orders, total] = await this.orderRepository.findAndCount({
+            where: {
+                status: getOrdersDto.status
+            },
+            relations: ['orderItems', 'orderItems.product', 'orderItems.order'],
+            take: getOrdersDto.limit,
+            skip: (getOrdersDto.page - 1) * getOrdersDto.limit
         });
 
-        return this.mapper.mapArrayAsync(orders, OrderEntity, OrderDto)
+        const mappedOrders = await this.mapper.mapArrayAsync(orders, OrderEntity, OrderDto);
+
+        return { total, data: mappedOrders };
     }
 
     async createOrder(createOrderDto: CreateOrderDto): Promise<OrderDto> {
@@ -49,6 +59,7 @@ export class OrderService {
 
         try {
             const order = this.orderRepository.create({
+                customerId: createOrderDto.customerId,
                 shippingAddress: createOrderDto.shippingAddress,
                 status: OrderStatus.PENDING,
             });
@@ -57,18 +68,18 @@ export class OrderService {
 
             if (!_.isNil(createOrderDto.orderItems) || !_.isEmpty(createOrderDto.orderItems)) {
                 const productIds = _.map(createOrderDto.orderItems, itemDto => itemDto.productId);
-                const products = await this.productRepository.findBy({ id: In(productIds) });
+                const products = await this.productRepository.findBy({ id: In(productIds), isActive: true });
 
                 if (products.length !== productIds.length) {
                     const missingProductIds = _.filter(productIds,
-                        id => !_.some(products, product => product.id === id)
+                        id => !_.some(products, product => product.id == id)
                     );
                     throw new NotFoundException(`Products with IDs ${_.join(missingProductIds, ', ')} not found`);
                 }
 
                 for (let i = 0; i < createOrderDto.orderItems.length; i++) {
                     const itemDto = createOrderDto.orderItems[i];
-                    const product = _.find(products, p => p.id === itemDto.productId);
+                    const product = _.find(products, p => p.id == itemDto.productId);
 
                     const orderItem = this.orderItemRepository.create({
                         quantity: itemDto.quantity,
@@ -130,11 +141,11 @@ export class OrderService {
                 await queryRunner.manager.remove(existingOrder.orderItems);
 
                 const productIds = _.map(updateOrderDto.orderItems, itemDto => itemDto.productId);
-                const products = await this.productRepository.findBy({ id: In(productIds) });
+                const products = await this.productRepository.findBy({ id: In(productIds), isActive: true });
 
                 if (products.length !== productIds.length) {
                     const missingProductIds = _.filter(productIds,
-                        id => !_.some(products, product => product.id === id)
+                        id => !_.some(products, product => product.id == id)
                     );
                     throw new NotFoundException(`Products with IDs ${missingProductIds.join(', ')} not found`);
                 }
@@ -143,7 +154,7 @@ export class OrderService {
 
                 for (let i = 0; i < updateOrderDto.orderItems.length; i++) {
                     const itemDto = updateOrderDto.orderItems[i];
-                    const product = _.find(products, p => p.id === itemDto.productId);
+                    const product = _.find(products, p => p.id == itemDto.productId);
 
                     if (!product) {
                         throw new NotFoundException(`Product with ID ${itemDto.productId} not found`);

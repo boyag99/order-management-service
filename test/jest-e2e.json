@@ -16,6 +16,8 @@
     "@libs/database/(.*)": "<rootDir>/../libs/database/src/$1",
     "@libs/database": "<rootDir>/../libs/database/src",
     "@libs/redlock/(.*)": "<rootDir>/../libs/redlock/src/$1",
-    "@libs/redlock": "<rootDir>/../libs/redlock/src"
+    "@libs/redlock": "<rootDir>/../libs/redlock/src",
+    "@libs/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@libs/common": "<rootDir>/../libs/common/src"
   }
 }
